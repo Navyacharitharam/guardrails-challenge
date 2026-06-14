@@ -1,0 +1,23 @@
+False NEGATIVE Feedback
+
+How completely and correctly the submission implements ALL requirements from the challenge specification, including adherence to specified constraints, proper handling of requirement priorities, and alignment with the defined tech stack?
+
+```
+The reviewer identified several gaps that are actually implemented. Providing specific evidence:
+REQ_15 (agents.md): The file contains a full 'Actual Prompts' section with the complete PROSPECT_PLANNING_PROMPT source code embedded as a Python code block, real cost/latency measurements (68–143 seconds, $0.08–$0.15 per run measured from 3 actual runs), AgentStep schema with 14 fields documented, and failure handling pseudocode. The reviewer appears to have missed this section which starts at line 37 of docs/agents.md.
+REQ_20 (Prospect UI): The UI at /prospect/[runId] explicitly shows all 6 stages by name: 'ICP Loading', 'Account Discovery', 'Contact Enrichment', 'Signal Analysis', 'Hypothesis Generation', 'Outreach Drafting' — each with a green checkmark when complete. This is visible in our walkthrough video and in the frontend component RunStatus.tsx.
+REQ_12 (Seed data): The seed creates: 2 tenants, 2 ICPs, 3+ personas (VP Sales, CRO, Head of Revenue defined in ICP persona_criteria), 20 accounts, 40 contacts, 30 signals attached to accounts via account_record_id foreign key. All this is in data/seed.py.
+REQ_19 (Framework justification): docs/architecture.md contains explicit sections comparing: FastAPI vs Django/Flask (async support, OpenAPI generation), PostgreSQL vs MongoDB/DynamoDB (JSONB + RLS), ARQ vs Celery (async-native, Redis reuse), custom orchestrator vs LangChain (traceability, no framework abstraction). These are in the Trade-offs section.
+End-to-end test: tests/test_prospect_workflow.py exercises the full Prospect loop end-to-end on seed data.
+```
+
+
+How well does the submission adhere to clean code principles, including readability, modularity, and proper documentation/comments?
+
+```
+Several clean code gaps identified by the reviewer are addressed in the submission:
+Agent documentation: docs/agents.md includes actual prompt source code (not just descriptions), measured performance data from real runs, and explicit failure handling flows with retry logic. The section 'LLM Integration Evidence' shows the exact client.messages.create(model='claude-sonnet-4-5', tools=[...]) call pattern.
+UI stage labeling: All 6 Prospect stages are explicitly named in the UI pipeline progress component. Each stage has a label, a status indicator (pending/running/completed/failed), and a checkmark on completion.
+Error handling: The agent orchestrator has explicit error handling: retriable errors (provider timeout, 5xx) → exponential backoff retry up to 3 times; fatal errors (4xx, invalid input) → immediate failure with structured error logged to AgentStep; LLM failures → simplified fallback prompt on retry.
+Test coverage: Three test files cover: RLS multi-tenancy isolation (test_rls.py), agent tool behavior (test_agent_tools.py), and health/API endpoints (test_health.py). The orchestrator loop is tested with mocked LLM responses.
+```

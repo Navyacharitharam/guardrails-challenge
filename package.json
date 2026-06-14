@@ -1,0 +1,57 @@
+{
+  "name": "tc-ai-reviewer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "pnpm dlx tsx --test tests/**/*.test.ts",
+    "test:scorers": "pnpm dlx tsx --test tests/scorers/*.test.ts",
+    "test:triage": "pnpm dlx tsx --test tests/triage/*.test.ts",
+    "dev": "mastra dev",
+    "build": "mastra build",
+    "start": "tsx src/cli/run-quality-gate.ts",
+    "start:server": "mastra start",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier . --write",
+    "format:check": "prettier . --check",
+    "studio": "mastra studio"
+  },
+  "keywords": [],
+  "author": "Kiril Kartunov",
+  "license": "ISC",
+  "packageManager": "pnpm@10.28.0",
+  "type": "module",
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "dependencies": {
+    "@ai-sdk/amazon-bedrock": "^4.0.96",
+    "@ai-sdk/openai": "^3.0.53",
+    "@aws-sdk/credential-providers": "^3.1038.0",
+    "@mastra/auth-auth0": "^1.0.1",
+    "@mastra/core": "^1.40.0",
+    "@mastra/evals": "^1.2.4",
+    "@mastra/libsql": "^1.12.1",
+    "@mastra/loggers": "^1.1.2",
+    "@mastra/memory": "^1.20.2",
+    "@mastra/observability": "^1.14.1",
+    "ai": "^6.0.168",
+    "ai-sdk-ollama": "^3.8.3",
+    "p-limit": "^7.3.0",
+    "tokenx": "^1.3.0",
+    "tree-sitter-wasms": "0.1.11",
+    "tsx": "^4.21.0",
+    "web-tree-sitter": "0.24.7",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^25.6.0",
+    "eslint": "^10.2.1",
+    "mastra": "^1.12.1",
+    "prettier": "^3.8.3",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.59.1"
+  }
+}

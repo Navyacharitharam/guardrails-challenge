@@ -1,0 +1,21 @@
+version: "3.9"
+
+services:
+  gtm:
+    build:
+      context: ..
+      dockerfile: infra/Dockerfile
+    ports:
+      - "127.0.0.1:8000:8000"
+    environment:
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - SERPER_API_KEY=${SERPER_API_KEY}
+      - GMAIL_CRED_PATH=/app/data/gmail_cred.json
+    volumes:
+      - ../data:/app/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3

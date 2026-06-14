@@ -1,0 +1,58 @@
+{
+  "description": "Demo seed data for GTM Platform - loaded automatically on startup via backbone/seed.py",
+  "tenants": [
+    {
+      "id": "tenant-default",
+      "name": "Default Tenant",
+      "plan": "enterprise"
+    }
+  ],
+  "icp_profiles": [
+    {
+      "name": "Enterprise SaaS",
+      "industries": ["HR SaaS", "FinTech", "DevTools"],
+      "sizes": ["200-5000"],
+      "titles": ["VP Sales", "CRO", "Head of RevOps", "VP Engineering"],
+      "keywords": ["ARR", "pipeline", "enterprise", "Series B", "Series C", "Series D"]
+    },
+    {
+      "name": "Growth Stage Tech",
+      "industries": ["Developer Tools", "AI", "Productivity"],
+      "sizes": ["50-500"],
+      "titles": ["CEO", "CTO", "VP Engineering", "Head of Product"],
+      "keywords": ["Series A", "Series B", "growth", "developer", "AI-native"]
+    }
+  ],
+  "companies": [
+    {"domain": "rippling.com", "name": "Rippling", "industry": "HR SaaS", "icp_score": 0.92},
+    {"domain": "linear.app", "name": "Linear", "industry": "Developer Tools", "icp_score": 0.87},
+    {"domain": "notion.so", "name": "Notion", "industry": "Productivity SaaS", "icp_score": 0.85},
+    {"domain": "vercel.com", "name": "Vercel", "industry": "Developer Tools", "icp_score": 0.81},
+    {"domain": "retool.com", "name": "Retool", "industry": "Low-Code SaaS", "icp_score": 0.78},
+    {"domain": "loom.com", "name": "Loom", "industry": "Productivity SaaS", "icp_score": 0.74},
+    {"domain": "figma.com", "name": "Figma", "industry": "Design SaaS", "icp_score": 0.80},
+    {"domain": "airtable.com", "name": "Airtable", "industry": "Low-Code SaaS", "icp_score": 0.76},
+    {"domain": "intercom.com", "name": "Intercom", "industry": "Customer Success SaaS", "icp_score": 0.83},
+    {"domain": "segment.com", "name": "Segment", "industry": "Data Infrastructure", "icp_score": 0.77}
+  ],
+  "total_contacts": 21,
+  "total_signals": 16,
+  "signals": [
+    {"account_domain": "rippling.com", "type": "funding", "content": "Rippling raised $200M Series F at $13.5B valuation", "source": "TechCrunch"},
+    {"account_domain": "rippling.com", "type": "product_launch", "content": "Rippling launched AI-native expense management", "source": "Product Hunt"},
+    {"account_domain": "rippling.com", "type": "hiring", "content": "Rippling is hiring 50+ enterprise sales reps", "source": "LinkedIn"},
+    {"account_domain": "linear.app", "type": "product_launch", "content": "Linear launched Cycles - AI-powered sprint planning", "source": "Hacker News"},
+    {"account_domain": "linear.app", "type": "growth", "content": "Linear crossed 25,000 paying teams milestone", "source": "Twitter"},
+    {"account_domain": "notion.so", "type": "product_launch", "content": "Notion AI launched enterprise-grade document summarization", "source": "ProductHunt"},
+    {"account_domain": "notion.so", "type": "funding", "content": "Notion raised $275M at $10B valuation", "source": "TechCrunch"},
+    {"account_domain": "vercel.com", "type": "product_launch", "content": "Vercel launched AI SDK 4.0 with multi-model support", "source": "Hacker News"},
+    {"account_domain": "vercel.com", "type": "hiring", "content": "Vercel hiring senior enterprise AEs in EMEA and APAC", "source": "LinkedIn"},
+    {"account_domain": "intercom.com", "type": "product_launch", "content": "Intercom launched Fin AI Agent - resolves 50% of support tickets", "source": "Blog"},
+    {"account_domain": "intercom.com", "type": "growth", "content": "Intercom AI processed 1M+ customer conversations in 30 days", "source": "Twitter"},
+    {"account_domain": "figma.com", "type": "hiring", "content": "Figma expanding enterprise sales team globally", "source": "LinkedIn"},
+    {"account_domain": "airtable.com", "type": "funding", "content": "Airtable raised $270M Series F at $11B valuation", "source": "TechCrunch"},
+    {"account_domain": "retool.com", "type": "funding", "content": "Retool raised $45M Series C led by Sequoia", "source": "TechCrunch"},
+    {"account_domain": "segment.com", "type": "hiring", "content": "Segment hiring data engineers and solutions architects", "source": "LinkedIn"},
+    {"account_domain": "loom.com", "type": "growth", "content": "Loom surpassed 25M users globally", "source": "Twitter"}
+  ]
+}

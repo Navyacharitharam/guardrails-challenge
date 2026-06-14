@@ -1,0 +1,545 @@
+{
+  "title": "Build an AI-Native Go-to-Market Platform: Architecture & Prospects",
+  "prizes": [
+    {
+      "value": 2000,
+      "currency": "USD",
+      "placement": 1
+    },
+    {
+      "value": 1000,
+      "currency": "USD",
+      "placement": 2
+    }
+  ],
+  "skills": [
+    {
+      "id": "03926def-79a2-4427-9499-3e9128b01f9e",
+      "name": "Data Modeling"
+    },
+    {
+      "id": "3167f6ae-a323-4114-a85e-497314753fff",
+      "name": "OAuth"
+    },
+    {
+      "id": "09218471-10d5-489d-a287-45623c9f3b2e",
+      "name": "Database Design"
+    },
+    {
+      "id": "d80c1563-791e-493a-92f3-afa27551697b",
+      "name": "Prompt Engineering"
+    },
+    {
+      "id": "5441b4cb-19f3-47ca-9850-609ca4d2493a",
+      "name": "Microservices"
+    },
+    {
+      "id": "07538acb-8a24-4a93-a90e-6ff3a10236cd",
+      "name": "Data Integration"
+    },
+    {
+      "id": "bf6b82de-4c61-4fa5-8676-25cda553feaa",
+      "name": "Systems Design"
+    },
+    {
+      "id": "c4626b6c-3062-47f0-aec1-833b94fe8ba1",
+      "name": "Large Language Modeling"
+    },
+    {
+      "id": "296cf9a1-79ac-44eb-8c57-320fa5dddd88",
+      "name": "AI Agent Orchestration"
+    }
+  ],
+  "timeline": {
+    "endDate": "2026-05-24T03:00:00.000Z",
+    "startDate": "2026-05-15T15:00:00.000Z",
+    "totalDurationDays": 9,
+    "registrationEndDate": "2026-05-20T15:00:00.000Z",
+    "registrationStartDate": "2026-05-15T15:00:00.000Z"
+  },
+  "tech_stack": ["Docker", "Docker Compose", "OAuth", "REST", "LLM", "PostgreSQL", "OAuth 2.0"],
+  "challengeId": "55cea4d4-0d36-437e-82a6-fbfab6ff30dc",
+  "requirements": [
+    {
+      "id": "REQ_01",
+      "title": "Unified GTM Data Model with Real Persistence",
+      "priority": "high",
+      "constraints": [
+        {
+          "id": "CONSTR_01_1",
+          "text": "No in-memory or JSON file persistence — a real database is mandatory."
+        },
+        {
+          "id": "CONSTR_01_2",
+          "text": "Schema must cover at minimum: accounts, contacts, opportunities, activities, signals."
+        },
+        {
+          "id": "CONSTR_01_3",
+          "text": "Must accommodate custom fields and new entity types without significant rework."
+        },
+        {
+          "id": "CONSTR_01_4",
+          "text": "Indexing and query patterns for scale must be addressed."
+        }
+      ],
+      "description": "Design and implement a unified data model purpose-built for GTM data, covering at minimum: accounts, contacts, opportunities, activities, and signals. All data must be persisted in a real database (not in-memory, not JSON files) appropriate to the workload. The schema must include proper entity relationships, support custom fields and new entity types without a full rewrite, and address indexing and query patterns for growth from 100 to 10 million records."
+    },
+    {
+      "id": "REQ_02",
+      "title": "Multi-Tenant-Ready Platform Foundation",
+      "priority": "high",
+      "constraints": [
+        {
+          "id": "CONSTR_02_1",
+          "text": "Tenant isolation must be real and enforced at data, service, and request layers."
+        },
+        {
+          "id": "CONSTR_02_2",
+          "text": "Automated tests must verify multi-tenancy isolation."
+        }
+      ],
+      "description": "The platform must be built on a multi-tenant-ready foundation where tenant isolation is enforced at the data, service, and request layers. The architecture must demonstrate real multi-tenancy (not a placeholder), ensuring one tenant cannot access another's data. The seeded demo environment must include at least one tenant."
+    },
+    {
+      "id": "REQ_03",
+      "title": "External Data Ingestion Pathway",
+      "priority": "high",
+      "constraints": [
+        {
+          "id": "CONSTR_03_1",
+          "text": "Ingestion must land data into the platform's defined data model, not as raw blobs."
+        }
+      ],
+      "description": "Implement an ingestion pathway that allows external data to flow into the platform's unified data model. This includes the mechanism for pulling data from external integrations into the core entities (accounts, contacts, signals, etc.) in a structured and traceable way."
+    },
+    {
+      "id": "REQ_04",
+      "title": "Agent Orchestration Layer with LLM Tool Use",
+      "priority": "high",
+      "constraints": [
+        {
+          "id": "CONSTR_04_1",
+          "text": "Must use real LLM calls — hardcoded or mocked responses are disqualifying."
+        },
+        {
+          "id": "CONSTR_04_2",
+          "text": "Agents must use actual tool use, not single-prompt-and-response loops."
+        },
+        {
+          "id": "CONSTR_04_3",
+          "text": "Structured outputs and traceable reasoning logs are mandatory."
+        },
+        {
+          "id": "CONSTR_04_4",
+          "text": "Cost and latency awareness must be visible in the implementation."
+        }
+      ],
+      "description": "Build an agent orchestration layer capable of running real, multi-step LLM-driven workflows. Agents must: read from the platform's data model, call multiple internal and external tools, produce structured outputs, write results back to the data model, and emit a traceable log of reasoning and actions. The layer must address prompt design, model selection, failure modes (retries, fallbacks, timeouts), cost/latency trade-offs, and human-in-the-loop checkpoints."
+    },
+    {
+      "id": "REQ_05",
+      "title": "Integrations Framework for Extensible External Connections",
+      "priority": "high",
+      "constraints": [
+        {
+          "id": "CONSTR_05_1",
+          "text": "Adding a new integration must not require touching core platform code."
+        },
+        {
+          "id": "CONSTR_05_2",
+          "text": "Framework must handle rate limits, token refresh, and failure handling."
+        },
+        {
+          "id": "CONSTR_05_3",
+          "text": "Pattern for adding integrations must be clearly documented."
+        }
+      ],
+      "description": "Design and implement an integrations framework that allows new integrations to be added without modifying core code. The framework must define a clear, documented pattern for integration authors. It must handle auth token storage, token refresh, rate limits, and failure/error handling. Adding the next integration should follow a prescribed pattern without touching core platform code."
+    },
+    {
+      "id": "REQ_06",
+      "title": "At Least One Working External Integration",
+      "priority": "high",
+      "constraints": [
+        {
+          "id": "CONSTR_06_1",
+          "text": "Must use real OAuth or API key flow — no simulated authentication."
+        },
+        {
+          "id": "CONSTR_06_2",
+          "text": "Must make real API calls and import real data into the data model."
+        },
+        {
+          "id": "CONSTR_06_3",
+          "text": "Integration must materially power the Prospect experience."
+        },
+        {
+          "id": "CONSTR_06_4",
+          "text": "Scores 0 if integration is a facade with no real connection behind it."
+        }
+      ],
+      "description": "Implement at least one genuine, fully working integration with an external system that materially powers the Prospect slice. The integration must use a real OAuth or API key authentication flow, make real API calls, and flow real data into the platform's data model. Appropriate choices include email, calendar, enrichment providers, or signal sources relevant to prospecting. A fake 'Connected ✓' badge with no actual connection is explicitly disqualifying."
+    },
+    {
+      "id": "REQ_07",
+      "title": "Prospect Vertical Slice: ICP Definition and Account Sourcing",
+      "priority": "high",
+      "constraints": [
+        {
+          "id": "CONSTR_07_1",
+          "text": "ICP definition must be persisted in the data model."
+        },
+        {
+          "id": "CONSTR_07_2",
+          "text": "Account sourcing must use the agent layer, not static/hardcoded data."
+        },
+        {
+          "id": "CONSTR_07_3",
+          "text": "Seed data must include ≥2 ICPs and ≥10 matching companies."
+        }
+      ],
+      "description": "Implement the first step of the Prospect loop: allow users to define or load an Ideal Customer Profile (ICP) and source matching accounts against it. The agent layer must do real work at this step, and all results must be persisted in the data model. The seeded demo data must include at least 2 ICPs and 10 companies."
+    },
+    {
+      "id": "REQ_08",
+      "title": "Prospect Vertical Slice: Contact Enrichment",
+      "priority": "high",
+      "constraints": [
+        {
+          "id": "CONSTR_08_1",
+          "text": "Enrichment must write results back to the contacts entity in the data model."
+        },
+        {
+          "id": "CONSTR_08_2",
+          "text": "Seed data must include ≥10 contacts and ≥3 personas."
+        }
+      ],
+      "description": "Implement contact enrichment within the Prospect slice. The agent or integration layer must enrich contacts associated with sourced accounts, populating relevant fields in the data model. Seed data must include at least 10 contacts and at least 3 personas."
+    },
+    {
+      "id": "REQ_09",
+      "title": "Prospect Vertical Slice: Intent Signal Capture",
+      "priority": "high",
+      "constraints": [
+        {
+          "id": "CONSTR_09_1",
+          "text": "Signals must be a first-class entity in the data model, linked to accounts."
+        },
+        {
+          "id": "CONSTR_09_2",
+          "text": "Seed data must include ≥10 intent signals attached to accounts."
+        }
+      ],
+      "description": "Implement intent signal capture within the Prospect slice. The platform must be able to capture, store, and display intent signals attached to accounts. Seed data must include at least 10 signals. Signals must be linked to accounts via the data model."
+    },
+    {
+      "id": "REQ_10",
+      "title": "Prospect Vertical Slice: Context-Aware Value Hypotheses",
+      "priority": "high",
+      "constraints": [
+        {
+          "id": "CONSTR_10_1",
+          "text": "Value hypotheses must be generated by the agent layer using real LLM calls, not hardcoded."
+        },
+        {
+          "id": "CONSTR_10_2",
+          "text": "Outputs must be structured and written back to the data model."
+        }
+      ],
+      "description": "Implement generation of context-aware value hypotheses as part of the Prospect loop. The agent must read account, contact, and signal data from the data model, reason about fit and value, and produce structured value hypothesis outputs that are written back to the data model."
+    },
+    {
+      "id": "REQ_11",
+      "title": "Prospect Vertical Slice: Personalised Outreach Generation",
+      "priority": "high",
+      "constraints": [
+        {
+          "id": "CONSTR_11_1",
+          "text": "Outreach must be personalised using data from the data model, not generic templates."
+        },
+        {
+          "id": "CONSTR_11_2",
+          "text": "Generated outreach must be stored in the data model."
+        },
+        {
+          "id": "CONSTR_11_3",
+          "text": "Agent reasoning and tool calls producing outreach must be traceable."
+        }
+      ],
+      "description": "Implement personalised outreach generation as the final step of the Prospect loop. The agent must use the enriched account/contact data, signals, and value hypotheses to produce personalised outreach content. Results must be stored in the data model and traceable."
+    },
+    {
+      "id": "REQ_12",
+      "title": "Seeded Demo Environment with Representative Data",
+      "priority": "high",
+      "constraints": [
+        {
+          "id": "CONSTR_12_1",
+          "text": "Minimum seed: ≥1 tenant, ≥2 ICPs, ≥10 companies, ≥3 personas, ≥10 contacts, ≥10 signals."
+        },
+        {
+          "id": "CONSTR_12_2",
+          "text": "Seed data must load automatically on first run, not require manual setup."
+        }
+      ],
+      "description": "The system must automatically load a seeded demo environment on first run. Seed data must include: at least one tenant, at least 2 ICPs, at least 10 companies (accounts), at least 3 personas, at least 10 contacts, and at least 10 intent signals attached to accounts. Any other data required for the Prospect loop to run end-to-end must also be seeded. Seed data must be part of the repository — reviewers must not need to create data manually."
+    },
+    {
+      "id": "REQ_13",
+      "title": "Automated Test Suite for Critical Paths",
+      "priority": "high",
+      "constraints": [
+        {
+          "id": "CONSTR_34_1",
+          "text": "Must include ≥1 end-to-end integration test for the full Prospect loop."
+        },
+        {
+          "id": "CONSTR_13_2",
+          "text": "Must include tests for agent orchestration layer."
+        },
+        {
+          "id": "CONSTR_13_3",
+          "text": "Must include data access layer tests with multi-tenancy isolation verification."
+        },
+        {
+          "id": "CONSTR_13_4",
+          "text": "No specific coverage threshold required, but tests must cover critical paths."
+        }
+      ],
+      "description": "Include automated tests covering the critical paths: at least one integration test exercising the full Prospect loop end-to-end, tests around the agent orchestration layer, and tests around the data access layer with a focus on multi-tenancy isolation. The focus is on proving important things work, not achieving a specific coverage percentage."
+    },
+    {
+      "id": "REQ_14",
+      "title": "Architecture Document (`/docs/architecture.md`)",
+      "priority": "high",
+      "constraints": [
+        {
+          "id": "CONSTR_14_1",
+          "text": "Length cap: 10 pages including diagrams. Documents over the cap are read only up to the cap."
+        },
+        {
+          "id": "CONSTR_14_2",
+          "text": "All required sections must be present: system overview, data model, multi-tenancy, service boundaries, agent orchestration, integration framework, extension points, what to build next, trade-offs."
+        }
+      ],
+      "description": "Write a comprehensive architecture document (≤10 pages including diagrams) at `/docs/architecture.md`. Must include: system overview with diagram, ERD or equivalent data model covering all entities and relationships, multi-tenancy explanation, service/module boundaries with rationale, agent orchestration approach overview, integration framework overview, extension points, a section on what to build next (Engage, Manage, Operate) and how it plugs in, and explicit trade-offs and deferred decisions."
+    },
+    {
+      "id": "REQ_15",
+      "title": "Agent Design Document (`/docs/agents.md`)",
+      "priority": "high",
+      "constraints": [
+        {
+          "id": "CONSTR_15_1",
+          "text": "Length cap: 5 pages."
+        },
+        {
+          "id": "CONSTR_15_2",
+          "text": "Must include actual prompts or direct references to prompt locations in repo."
+        },
+        {
+          "id": "CONSTR_15_3",
+          "text": "Must include cost/latency notes based on actual measured runs."
+        }
+      ],
+      "description": "Write a detailed agent design document (≤5 pages) at `/docs/agents.md`. Must include: agent inventory (every agent, what it does, when it runs), tools (every tool each agent can call), actual prompts or clear references to their location in the repo, orchestration approach (multi-step reasoning structure, output validation, state passing), failure handling (retries, fallbacks, timeouts), human-in-the-loop checkpoints, traceability approach, and cost/latency notes (approximate LLM cost per Prospect run and average end-to-end latency)."
+    },
+    {
+      "id": "REQ_16",
+      "title": "Integration Document (`/docs/integrations.md`)",
+      "priority": "high",
+      "constraints": [
+        {
+          "id": "CONSTR_16_1",
+          "text": "Length cap: 3 pages."
+        },
+        {
+          "id": "CONSTR_16_2",
+          "text": "Must include a 'How to add the next integration' section sufficient for a competent engineer to do so without touching core code."
+        }
+      ],
+      "description": "Write an integration document (≤3 pages) at `/docs/integrations.md`. Must include: integration overview (which external system and why), authentication details (OAuth flow, API key handling, token storage and refresh), data flow description (what is pulled in, how it lands in the data model, how it powers Prospect), operational concerns (rate limits, retries, error handling, observability), and a clear walkthrough of how to add the next integration without modifying core code."
+    },
+    {
+      "id": "REQ_17",
+      "title": "Root README.md with Full Setup and Overview",
+      "priority": "high",
+      "constraints": [
+        {
+          "id": "CONSTR_17_1",
+          "text": "The 'What's built vs. what's stubbed' section must be honest — overclaiming will be penalized across multiple categories."
+        }
+      ],
+      "description": "Write a root-level README.md (at the zip root) containing: a one-paragraph overview of what was built, full setup instructions (one-command bring-up, prerequisites, environment variables, API keys), step-by-step instructions for running the Prospect loop on seeded data, a repository map, an honest 'What's built vs. what's stubbed' section listing all mocked or partial functionality, and links to architecture/agent/integration documents and the walkthrough video."
+    },
+    {
+      "id": "REQ_18",
+      "title": "Saved Agent Execution Traces (≥3) in `/traces`",
+      "priority": "high",
+      "constraints": [
+        {
+          "id": "CONSTR_18_1",
+          "text": "Minimum 3 saved agent run traces."
+        },
+        {
+          "id": "CONSTR_18_2",
+          "text": "Format must be human-readable (Markdown, JSON, or similar) — raw unstructured logs do not count."
+        }
+      ],
+      "description": "Commit at least three saved, real agent run logs to the `/traces` directory in the submission zip. Each trace must be a complete record of a real end-to-end agent run on seeded data and must include: triggering input/event, reasoning steps, every tool call with inputs and outputs, intermediate/structured outputs, and the final action including what was written back to the data model."
+    },
+    {
+      "id": "REQ_19",
+      "title": "Architecture Justification for Framework Choices",
+      "priority": "high",
+      "constraints": [
+        {
+          "id": "CONSTR_19_1",
+          "text": "Framework choice justification must appear in the architecture document — not just in code comments."
+        }
+      ],
+      "description": "Every major framework and technology choice must be justified in the architecture document with clear reasoning about why it was selected for a platform of this scale, and what was considered and rejected."
+    },
+    {
+      "id": "REQ_20",
+      "title": "Prospect Loop UI: Clean, Usable End-to-End Flow",
+      "priority": "high",
+      "constraints": [
+        {
+          "id": "CONSTR_20_1",
+          "text": "UI must cover all six steps of the Prospect loop without significant gaps."
+        },
+        {
+          "id": "CONSTR_20_2",
+          "text": "Failures must be handled gracefully in the UI."
+        }
+      ],
+      "description": "The UI must be clean and usable, handle failures gracefully, and feel like a v1 product rather than a demo. It must exercise and expose the backbone's data and agent layer, not obscure them."
+    }
+  ],
+  "descriptionRaw": "Welcome to the first challenge of the series of challenges that will come after this challenge's output. In this challenge we are creating the harness framework architecture with capability to find the prospect for the AI-Native Go-to-Market(GTM) Platform platform.  \n\n## Project Overview\n\n### What we're building\n\nWe're building an **AI-native go-to-market platform** - the kind of system that's emerging as a new category in B2B software. The thesis is simple and well-documented in the market: the average sales rep spends roughly 30% of their time actually selling. The other 70% disappears into account research, contact research, CRM updates, call prep, note-taking, follow-ups, forecast updates, quoting, and context switching across 15+ disconnected tools. The category we're entering rejects that status quo. Instead of being yet another tool a rep has to log into, the platform we're building is the **operating layer** where sales work happens — with AI agents doing real work alongside the human, on top of a unified data model that knows everything about every account, contact, signal, and conversation.\n\nBefore you touch any code, **take time to research this category.** Look at how \"AI-native GTM platforms,\" \"AI-native CRMs,\" and \"agentic sales platforms\" position themselves. Look at how they describe their data model, their agent architecture, and their workflow surfaces. Understand the difference between a traditional CRM with AI features bolted on and a platform that was built from the ground up, assuming AI agents are first-class actors in the system. That distinction is the entire point of what we're doing, and submissions that don't reflect that understanding will be at a real disadvantage.\n\n### Who this is for\n\nTODO: Replace with Topcoder-specific persona from Tony\n\n### Why this challenge exists\n\nThis is the **first challenge** in a series that will build out this platform over time. That framing matters enormously for how you should approach it.\n\nWe are **not** asking you to build a demo. We are not asking you to build a polished front-end with mocked API responses behind it. We are not asking you to wrap an LLM call in a chat UI and call it a CRM. Submissions that take a spec-to-AI-tool shortcut tend to be obvious to judges, and they will not be competitive here.\n\nWhat we are asking you to build is the **foundation on which everything else gets built**. Think of yourself as the founding engineer and founding product architect on day one of a startup that intends to compete in this category. Every decision you make in this challenge - your data model, your service boundaries, your agent orchestration approach, your integration framework, your extensibility model - will either accelerate or strangle every challenge that comes after this one. The winning submission is the one we can keep building on for the next 12 months without ripping it out.\n\n## Requirements\n\n### What this iteration must deliver\n\nThis first iteration has two parts, and both have to be real:\n\n**1. The platform backbone.** A unified data model designed for GTM data (accounts, contacts, opportunities, activities, signals - at minimum), real persistence (not in-memory, not JSON files), a multi-tenant-ready foundation, an ingestion pathway for external data, and an **agent orchestration layer** capable of running real LLM-driven workflows with tool use, structured outputs, and traceability. This is the layer that makes us a platform instead of an app.\n\n**2. One vertical slice, built deep: Prospect.** A complete, working Prospect experience that exercises the backbone end-to-end - sourcing accounts that match an ICP, enriching contacts, capturing intent signals, generating context-aware value hypotheses, and producing personalised outreach. The Prospect slice is not a side feature; it is the proof that the backbone is real. If the backbone is well-designed, building Prospect on top of it should feel natural - and the next challenge (adding Engage, then Manage, then Operate) should feel like extending the same system, not starting over.\n\n\n### How we'll judge this\n\nWe are weighing four things equally, and you need to demonstrate all four. A submission strong in one and weak in the others will struggle to win.\n\n**Real AI/agent integration.** Actual LLM calls. Actual tool use. Actual reasoning chains where the agent reads data from the platform, calls external services, makes decisions, writes back to the data model, and leaves a trace of what it did and why. Hardcoded responses, single-shot prompts with no tool use, or \"the AI is a chat box on the side\" will all read as gaps. We want to see that you've thought about prompt design, agent orchestration, cost/latency tradeoffs, failure modes, and how a human operator stays in the loop.\n\n**Real data architecture.** A schema we can show a senior backend engineer without flinching. Proper entity relationships. Thought given to multi-tenancy, to how this data grows from 100 records to 10 million, to how new entity types and custom fields get added without a rewrite. Show us you understand that the data model **is** the platform – everything else is built on top of it.\n\n**Real integrations.** At least one genuine, working integration with an external system that materially powers the Prospect slice – real OAuth or API key flow, real API calls, real data flowing in. Pick something that makes sense for prospecting (email, calendar, enrichment provider, signal source, etc.). A fake \"Connected ✓\" badge with no actual connection behind it is worse than not having the integration at all. We also want to see the **integrations framework** – how the next ten integrations get added without touching core code.\n\n**Architectural thinking.** This is where most submissions will be separated from each other. We want to see the reasoning: why this data model, why these service boundaries, why this orchestration approach, why these extension points. Include a written architecture document with your submission. Tell us what you'd build next, what you deliberately didn't build, what assumptions you made about the next five challenges, and where the seams are for the platform to grow. If a competing team has slicker UI but you have clearer architectural thinking, you will win.\n\n### What sets strong submissions apart\n\nSubmissions that tend to win challenges like this share a few traits:\n\n- A data model and architecture diagram the next team can pick up and extend.\n- An agent that does meaningful, multi-step work -- with a readable trace of how it did it.\n- One integration that works end-to-end, and a clear pattern for how the next ten will work.\n- Honest documentation: what's built, what's stubbed, what you'd do differently with more time.\n- Evidence you thought like the CTO and CPO of this company, not like someone delivering a checklist.\n\nSubmissions that tend to fall short:\n\n- Polished UIs with little real substance behind them.\n- Long feature lists, lightly implemented.\n- Trendy frameworks chosen without a stated reason.\n- AI features that are clearly single prompts dressed up as agents.\n- Mocked data or mocked integrations where the spec asked for real ones.\n- READMEs that describe a more impressive system than what was actually built.\n\n## Technology Stack\n- **Framework choice is open.** Pick what makes architectural sense for a platform of this scale. *Your framework choice is part of what's being judged in Category 4* – be ready to justify it in the architecture document.\n\n## Review Scorecard (Jugding criteria)\n\nSubmissions will be scored on a **100-point scale** across five categories. The first four mirror the non-negotiables above and are weighted equally at 20 points each. The fifth category, Vertical Slice Execution, ensures the Prospect experience actually works as a coherent product — not just as a thin demo of the backbone.\n\nA submission that scores well in some categories but poorly in others **will not advance**. We are looking for balanced, defensible work across the entire system. To make that explicit: any submission that scores **below 8 out of 20 in any single category** is disqualified from placing in the top three, regardless of total score. A brilliant agent layer cannot rescue a broken data model, and a beautiful UI cannot rescue an architecture that doesn't extend.\n\n## Category 1 — Real AI / Agent Integration (20 points)\n\nDoes the platform demonstrate genuine agentic behavior, or is \"AI\" a thin veneer over a chat box?\n\n| Points | Description |\n|---|---|\n| 17–20 | Multi-step agents that read from the platform's data model, call multiple tools (internal and external), produce structured outputs, write results back to the data model, and emit a traceable log of reasoning and actions. Clear thought given to prompt design, model selection, failure modes, retries, and human-in-the-loop checkpoints. Cost and latency awareness are visible in the implementation. |\n| 12–16 | Real LLM calls with at least some tool use and structured output. Agent behavior is functional but shallow — limited reasoning chains, weak traceability, or missing failure handling. Some evidence of design thinking around prompts and orchestration. |\n| 7–11 | LLM calls exist and produce output, but the \"agent\" is essentially a single-prompt-and-response loop. No meaningful tool use, no orchestration, no traceability. AI feels bolted on rather than woven through. |\n| 1–6 | Token AI usage — a chat box, a \"summarize this\" button, or one isolated LLM call. The platform is fundamentally not AI-native. |\n| 0 | No real LLM integration, or responses are hardcoded / mocked. |\n\n## Category 2 — Real Data Architecture (20 points)\n\nIs the data model something we can build a real platform on, or is it a sketch?\n\n| Points | Description |\n|---|---|\n| 17–20 | A clearly designed unified data model covering accounts, contacts, opportunities, activities, and signals with proper relationships. Multi-tenancy is real and thought through. Schema accommodates custom fields and new entity types without rework. Indexing, query patterns, and scaling considerations are addressed. Persistence is in a real database appropriate to the workload. |\n| 12–16 | Solid core schema with proper relationships and real persistence. Multi-tenancy is present but partial or basic. Some thought given to extensibility, but extending the schema would still require non-trivial changes in several places. |\n| 7–11 | Functional schema that supports the Prospect slice, but visibly built for the demo and not for the platform. No real multi-tenancy. Custom fields, new entity types, or scale would require significant rework. |\n| 1–6 | Minimal or ad-hoc data layer. Flat structures, missing relationships, persistence in files or in-memory stores, or a schema that couldn't support a real customer. |\n| 0 | No meaningful data architecture — data is held only as transient objects, or the model is incoherent. |\n\n## Category 3 — Real Integrations (20 points)\n\nIs there at least one working integration with an external system, and is there a clear pattern for adding more?\n\n| Points | Description |\n|---|---|\n| 17–20 | At least one fully working external integration with a real OAuth or API-key flow, real API calls, and real data flowing into the platform's data model in a way that materially powers the Prospect experience. An integrations framework is in place — adding the next integration follows a clear, documented pattern and does not require touching core code. Auth tokens, rate limits, and failure handling are addressed. |\n| 12–16 | One real integration that works end-to-end and feeds the Prospect slice. Framework for adding more exists, but is partially developed — new integrations would still touch core code in places. Some operational concerns (rate limits, token refresh, error handling) are missing or shallow. |\n| 7–11 | An integration exists and makes real API calls, but is one-off rather than part of a framework. Adding a second integration would essentially mean writing it from scratch. Limited error handling or operational thought. |\n| 1–6 | Integration is shallow — a single read of static data, hardcoded credentials, or a wrapper that doesn't materially affect the Prospect experience. |\n| 0 | No real integration. \"Connected\" indicators with no actual connection behind them score here. |\n\n## Category 4 — Architectural Thinking (20 points)\n\nCan the next team build on top of this, or will they need to rip it out?\n\n| Points | Description |\n|---|---|\n| 17–20 | Submission includes a clear architecture document explaining the data model, service boundaries, agent orchestration approach, and integration framework — with reasoning. Trade-offs are explicit. Extension points are identified. The submission anticipates the next 2–3 challenges (Engage, Manage, Operate) and shows where they'd plug in. What was deliberately deferred is named and justified. Reading the document, a senior engineer would say, \"I could build the next module on this.\" |\n| 12–16 | Architecture document is present and useful, with reasoning for major decisions. Some extension points are clear, but the path from this submission to the next module is not fully thought through. Trade-offs are mentioned but not deeply examined. |\n| 7–11 | Some written architectural reasoning exists, but it describes what was built more than why. Limited evidence suggests the design anticipates the next phase of the platform. Extension points are implicit at best. |\n| 1–6 | Minimal architectural reasoning. A README that lists features rather than explains design. The code reveals more about the architecture than the documentation does. |\n| 0 | No architecture documentation, or documentation that misrepresents what was built. |\n\n## Category 5 — Vertical Slice Execution: Prospect (20 points)\n\nDoes the Prospect experience actually work as a coherent product on top of the backbone?\n\n| Points | Description |\n|---|---|\n| 17–20 | A user can complete the full Prospect loop end-to-end: define or load an ICP, source matching accounts, enrich contacts, see intent signals captured against accounts, generate context-aware value hypotheses, and produce personalised outreach — with the agent layer doing real work at each step and the data model recording everything. The UI is clean and usable; failures are handled gracefully; the experience feels like a v1 product, not a demo. |\n| 12–16 | Most of the Prospect loop is functional end-to-end, but one or two steps are shallow, partially mocked, or visibly weaker than the rest. UI is functional but rough in places. The slice clearly exercises the backbone but doesn't fully showcase it. |\n| 7–11 | A subset of the Prospect loop works. The slice demonstrates that the backbone exists, but does not fully exercise it. Significant gaps in the user journey, or UI that obscures the work the platform is doing. |\n| 1–6 | The Prospect slice is fragmented — disconnected screens, broken flows, or steps that don't talk to each other through the data model. |\n| 0 | No working Prospect experience, or what exists doesn't meaningfully connect to the backbone. |\n\n---\n\n# Submission Requirements\n\nYour submission must include everything in this section. Items are organised into three groups: **what you build**, **what you document**, and **what you prove**. Each requirement maps to one or more scoring categories in the judging rubric. Missing or substandard deliverables in any group will affect your score in the corresponding rubric category.\n\nA self-audit checklist is provided at the end. Use it before submitting.\n\n## Group 1 — What You Build\n\n### 1.1 Submission package\n\nSubmit a **single zip file** containing all source code, infrastructure configuration, documentation, and supporting artifacts.\n\nThe zip must follow this top-level structure:\n\n```\n/backbone        — platform backbone code (data model, agent orchestration, integrations framework)\n/prospect        — Prospect vertical slice code (UI and slice-specific logic)\n/infra           — infrastructure config (Docker, compose files, IaC if used)\n/docs            — all required documentation (see Group 2)\n/traces          — saved agent execution traces (see 3.2)\n/tests           — automated tests\n/data            — seeded demo data (see 1.3)\nREADME.md        — root-level setup and overview (see 2.4)\n```\n\nSubmissions that don't follow this structure will make reviewing harder and will lose points in Category 4 (Architectural Thinking) for clarity.\n\n**Note on security review.** Topcoder will scan every submission for SAST findings, vulnerabilities, security issues, and run AI-assisted code review. Avoid bundled binaries, secrets in code, suspicious dependencies, and obvious vulnerability classes (SSRF, SQLi, exposed admin endpoints, etc.). Findings will be considered in review.\n\n### 1.2 One-command bring-up\n\nThe entire system must come up cleanly on a fresh machine with a **single documented command** — for example, `docker compose up` or an equivalent. The README must specify the command, prerequisites (Docker version, etc.), required environment variables, and how to obtain any external API keys.\n\n**This is non-negotiable.** If the system does not come up cleanly from the documented steps on a reviewer's machine, the corresponding functionality will be scored as if it does not exist. A working backbone that won't start cannot earn points in Categories 1, 2, 3, or 5.\n\nIf your system requires external API keys (LLM provider, integration provider, etc.), the README must list exactly which keys are needed and link to where they can be obtained. Reviewers will use their own keys.\n\n### 1.3 Seeded demo environment\n\nThe system must load a seeded demo environment automatically on first run, including:\n- At least one tenant\n- A defined ICP (Ideal Customer Profile)\n- A representative set of accounts and contacts\n- Sample intent signals attached to some accounts\n- Any other data the Prospect loop needs to run end-to-end\nReviewers should be able to bring the system up and immediately begin evaluating the Prospect experience without manually creating data. Seed data must be part of the repository — not assembled by the reviewer.\n\n### 1.4 Automated tests\n\nInclude automated tests covering the critical paths of the system:\n\n- At least one integration test that exercises the full Prospect loop end-to-end\n- Tests around the agent orchestration layer\n- Tests around the data access layer (multi-tenancy isolation in particular)\n\nWe are not setting a coverage threshold. We are looking for tests that prove the important things work, not tests that pad a number.\n\n## Group 2 — What You Document\n\nAll documentation must live under `/docs`. Length caps are firm. Documents significantly over the cap will be read only up to the cap.\n\n### 2.1 Architecture Document (`/docs/architecture.md`)\n\n**Length cap: 10 pages, including diagrams.** Primary evidence for Category 4 (Architectural Thinking); also informs Categories 1, 2, and 3.\n\nRequired sections:\n\n- **System overview** — a diagram and short narrative of how the major pieces fit together.\n- **Data model** — ERD or equivalent, covering accounts, contacts, opportunities, activities, signals, and any other entities. Explain key relationships and indexing decisions.\n- **Multi-tenancy** — how tenant isolation works at the data, service, and request layers.\n- **Service and module boundaries** — what runs where, why those boundaries were chosen, and how services communicate.\n- **Agent orchestration approach** — at a high level (the Agent Design Document goes deeper).\n- **Integration framework** — how integrations plug in (the Integration Document goes deeper).\n- **Extension points** — where the platform is designed to grow.\n- **What I'd build next and why** — explicit treatment of how Engage, Manage, and Operate would plug into this foundation.\n- **Trade-offs and deferred decisions** — what you didn't do, what you'd do differently with more time, and what you assumed about the next phases of the platform.\n\n### 2.2 Agent Design Document (`/docs/agents.md`)\n\n**Length cap: 5 pages.** Primary evidence for Category 1 (Real AI / Agent Integration).\n\nRequired sections:\n\n- **Agent inventory** — every agent in the system, what it does, when it runs.\n- **Tools** — every tool each agent can call (internal data tools, external API tools, etc.).\n- **Prompts** — the actual prompts used, or clear references to where they live in the repo.\n- **Orchestration** — how multi-step reasoning is structured, how outputs are validated, how state is passed between steps.\n- **Failure handling** — retries, fallbacks, timeouts, and what happens when an agent gets it wrong.\n- **Human-in-the-loop** — where the human reviews, approves, or overrides the agent.\n- **Traceability** — how reasoning, tool calls, and decisions are logged. How the citation contract (above) is enforced.\n- **Cost and latency notes** — approximate LLM cost per Prospect run and average end-to-end latency. A paragraph is fine; we want evidence that the system has been run enough to be measured.\n\n### 2.3 Integration Document (`/docs/integrations.md`)\n\n**Length cap: 3 pages.** Primary evidence for Category 3 (Real Integrations).\n\nRequired sections:\n\n- **Integration overview** — which external system was integrated and why it was chosen for the Prospect slice.\n- **Authentication** — OAuth flow, API key handling, token storage, and refresh.\n- **Data flow** — what data is pulled in, how it lands in the platform's data model, and how it powers the Prospect experience.\n- **Operational concerns** — rate limits, retries, error handling, observability.\n- **How to add the next integration** — a clear walkthrough of the pattern. If a competent engineer can read this section and confidently add a second integration without modifying core code, you have a framework. If not, you have a one-off.\n\n### 2.4 README.md (zip root)\n\nRequired sections:\n\n- **What this is** — one-paragraph overview.\n- **Setup** — the one-command bring-up, prerequisites, environment variables, external API keys needed.\n- **How to run the Prospect loop** — what a reviewer should do, in order, to see the system work end-to-end on the seeded data.\n- **Repository map** — what lives where.\n- **What's built vs. what's stubbed** — an honest table or list. Anything that looks functional but is mocked, hardcoded, or partial must be named here. Reviewers will compare claims in the README against what they observe. Overclaiming will hurt your score across multiple categories.\n- **Links** — to the architecture, agent, and integration documents, and to the walkthrough video.\n\n## Group 3 – What You Prove\n\n### 3.1 Walkthrough video\n\nA recorded walkthrough, **8–12 minutes**, hosted on YouTube, Loom, or Vimeo (unlisted is fine; link in the README). The video must follow this exact structure so reviewers can navigate it efficiently:\n\n| Time | Section |\n|---|---|\n| 0:00 – 1:00 | Architecture overview — show the diagram, walk through key decisions |\n| 1:00 – 2:00 | Data model walkthrough — show the schema, explain multi-tenancy |\n| 2:00 – 4:00 | Prospect loop end-to-end — live demonstration on the seeded data |\n| 4:00 – 6:00 | Agent traces — show one full agent run including reasoning, tool calls, and data writes |\n| 6:00 – 7:30 | Integration — show the integration actually pulling real data into the platform |\n| 7:30 – end | What's deliberately not built, and what comes next |\n\nEach section corresponds to a scoring category. A video that follows this structure makes it easy for reviewers to evaluate your work fairly. A video that doesn't follow it will make your submission harder to score, which will not work in your favour.\n\nUse real, seeded data – not slideware. Show the system actually running.\n\n### 3.2 Saved agent execution traces\n\nCommit **at least three saved agent run logs** to `/traces` in the zip. Each trace must capture a real end-to-end agent run on the seeded data and include:\n\n- The triggering input or event\n- The reasoning steps the agent went through\n- Every tool call made, with inputs and outputs\n- Any intermediate or structured outputs\n- The final action taken (including what was written back to the data model)\n\nTraces should be readable – formatted as Markdown, JSON, or another human-readable format. Raw, unstructured logs do not count. These traces are primary evidence for Category 1 and let reviewers verify agent behaviour without running the system themselves.\n\n## Submission Checklist\n\nSelf-audit before submitting. Submissions missing items from this checklist will be flagged during the completeness screen and may be returned or scored accordingly.\n\n- [ ] Submission packaged as a single **zip file**\n- [ ] Required top-level directory structure followed\n- [ ] One-command bring-up works on a clean machine, with all steps documented in the README\n- [ ] Required environment variables and external API keys documented\n- [ ] Seeded demo data loads automatically on first run (≥10 companies / ≥2 ICPs / ≥3 personas / ≥10 contacts / ≥10 signals)\n- [ ] Architecture Document present (`/docs/architecture.md`, ≤10 pages, all required sections)\n- [ ] Agent Design Document present (`/docs/agents.md`, ≤5 pages, all required sections including cost/latency notes)\n- [ ] Integration Document present (`/docs/integrations.md`, ≤3 pages, including \"How to add the next integration\")\n- [ ] At least three saved agent execution traces committed to `/traces`\n- [ ] Automated tests covering the Prospect loop, the agent layer, and multi-tenancy\n- [ ] Walkthrough video (8–12 minutes) recorded following the required section structure\n- [ ] README complete, including an honest \"What's built vs. what's stubbed\" section\n- [ ] All links in the README work (video, internal doc links, any external references)\n- [ ] No secrets or API keys checked into the submission\n- [ ] No bundled binaries; dependencies are declared and resolvable\n\n---",
+  "discussion_url": "https://discussions.topcoder.com/categories/55cea4d4-0d36-437e-82a6-fbfab6ff30dc",
+  "review_criteria": {
+    "reviewers": [
+      {
+        "type": "REGULAR_REVIEW",
+        "scorecardId": "uKoGhIugsyQSw0",
+        "isMemberReview": true
+      },
+      {
+        "scorecardId": "KoacEQbwl5ngLh",
+        "aiWorkflowId": "KKNcBJ1-BGlDIk",
+        "isMemberReview": false
+      },
+      {
+        "scorecardId": "YOFKEn7_BMwcTu",
+        "aiWorkflowId": "q0aZL_bf9NUvnQ",
+        "isMemberReview": false
+      },
+      {
+        "scorecardId": "a8b69L06-5ODNI",
+        "aiWorkflowId": "v2rGP_bf9NUvnW",
+        "isMemberReview": false
+      }
+    ],
+    "scorecard": null,
+    "reviewType": "INTERNAL"
+  },
+  "descriptionFormat": "markdown",
+  "existing_codebase": {
+    "notes": "The challenge is the first in a series and explicitly asks submitters to act as 'the founding engineer and founding product architect on day one of a startup.' All architectural decisions — data model, service boundaries, agent orchestration, integrations framework, and technology stack — are left entirely to the submitter. Framework choice is explicitly open and forms part of the judging criteria. No URLs to repositories, starter templates, API specs, designs, datasets, or configuration files are referenced anywhere in the specification.",
+    "summary": "Greenfield — build from scratch. No repositories, starter code, boilerplate, or pre-existing artifacts are provided. Submitters must design and implement the entire AI-native GTM platform foundation independently.",
+    "artifacts": [],
+    "languages": [],
+    "frameworks": [],
+    "branchOrTag": null,
+    "isGreenfield": true,
+    "repositoryUrl": null
+  },
+  "challenge_metadata": {
+    "type": "",
+    "track": "",
+    "isTask": false,
+    "status": "DRAFT",
+    "totalPrizes": 3000,
+    "numOfRegistrants": 0,
+    "numOfSubmissions": 0
+  },
+  "requirement_groups": [
+    {
+      "id": "GRP_01",
+      "name": "Platform Backbone & Data",
+      "requirementIds": ["REQ_01", "REQ_02", "REQ_03"]
+    },
+    {
+      "id": "GRP_02",
+      "name": "AI Agent Orchestration",
+      "requirementIds": ["REQ_04", "REQ_20"]
+    },
+    {
+      "id": "GRP_03",
+      "name": "Integrations Framework",
+      "requirementIds": ["REQ_05", "REQ_06"]
+    },
+    {
+      "id": "GRP_04",
+      "name": "Prospect Vertical Slice",
+      "requirementIds": ["REQ_07", "REQ_08", "REQ_09", "REQ_10", "REQ_11", "REQ_24"]
+    },
+    {
+      "id": "GRP_05",
+      "name": "Infrastructure & Setup",
+      "requirementIds": ["REQ_12", "REQ_13", "REQ_21", "REQ_22"]
+    },
+    {
+      "id": "GRP_06",
+      "name": "Testing & Quality",
+      "requirementIds": ["REQ_14"]
+    },
+    {
+      "id": "GRP_07",
+      "name": "Documentation & Proof",
+      "requirementIds": ["REQ_15", "REQ_16", "REQ_17", "REQ_18", "REQ_19", "REQ_23"]
+    }
+  ],
+  "runtime_environment": {
+    "os": "unknown",
+    "notes": "Framework and language choice are explicitly left open to the submitter and form part of the judging criteria. The spec mandates: (1) a real (non-in-memory, non-file-based) relational-style database — PostgreSQL is the canonical implied choice for a multi-tenant B2B platform of this description; (2) Docker Compose-based one-command bring-up on a fresh machine; (3) real LLM API calls (provider not specified — OpenAI or equivalent); (4) at least one real external API integration with OAuth or API-key auth (e.g. enrichment provider, intent signal source, email/calendar); (5) multi-tenant data isolation; (6) agent orchestration layer with tool use, structured outputs, and traceability. No specific language, framework, or package manager is required.",
+    "buildTool": null,
+    "serverType": null,
+    "containerTool": "Docker Compose",
+    "containerized": true,
+    "runtimeEngine": "unknown",
+    "databaseEngine": "PostgreSQL",
+    "packageManager": null,
+    "runtimeVersion": null,
+    "deploymentTarget": "local",
+    "additionalServices": [
+      "LLM API (e.g. OpenAI or equivalent)",
+      "External enrichment/signal integration API"
+    ],
+    "dockerfileExpected": true,
+    "programmingLanguages": []
+  },
+  "submission_guidelines": {
+    "notes": "The walkthrough video must follow an exact timed section structure (0:00–1:00 architecture overview, 1:00–2:00 data model, 2:00–4:00 Prospect loop demo, 4:00–6:00 agent traces, 6:00–7:30 integration, 7:30–end deferred work). The video may be hosted as unlisted. Seeded demo data must load automatically on first run without manual reviewer intervention. Documents over their page caps will only be read up to the cap. The README must include an honest 'What's built vs. what's stubbed' section — overclaiming will negatively affect scores across multiple categories.",
+    "summary": "Submitters must build a complete AI-native Go-to-Market platform backbone plus a working Prospect vertical slice, then package everything — source code, documentation, agent traces, automated tests, and a walkthrough video — into a single ZIP file uploaded to the Topcoder challenge page. The submission must be runnable with a single command, include a seeded demo environment, and be accompanied by three required documentation files (architecture, agent design, and integration) plus at least three saved agent execution traces.",
+    "howToSubmit": "Single ZIP archive containing all source code, infrastructure configuration, documentation, and supporting artifacts following the required top-level directory structure",
+    "whatToSubmit": [
+      "Infrastructure configuration files (Docker, compose files, IaC if used) under /infra",
+      "At least three saved agent execution traces committed to /traces",
+      "Walkthrough video (8–12 minutes) hosted on YouTube, Loom, or Vimeo with link in README"
+    ],
+    "whereToSubmit": "Topcoder challenge page",
+    "submissionType": "file_upload",
+    "isPatchOfExisting": false,
+    "submissionStorage": "topcoder_upload",
+    "eligibilityConditions": [
+      "Submission must pass Topcoder SAST scan (no bundled binaries, no secrets in code, no suspicious dependencies, no obvious vulnerability classes such as SSRF, SQLi, or exposed admin endpoints)",
+      "System must come up cleanly on a fresh machine with a single documented command",
+      "No API keys or secrets checked into the submission",
+      "No bundled binaries; all dependencies must be declared and resolvable",
+      "Any submission scoring below 8 out of 20 in any single scoring category is disqualified from placing in the top three"
+    ]
+  }
+}

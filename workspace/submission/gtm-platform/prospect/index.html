@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GTM Platform - Prospect</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0a0a0a; color: #e0e0e0; min-height: 100vh; }
+  header { padding: 20px 32px; border-bottom: 1px solid #1e1e1e; display: flex; align-items: center; gap: 12px; }
+  header h1 { font-size: 18px; font-weight: 600; color: #fff; }
+  header span { font-size: 12px; color: #666; background: #1a1a1a; padding: 2px 8px; border-radius: 4px; }
+  .container { max-width: 900px; margin: 40px auto; padding: 0 24px; }
+  .card { background: #111; border: 1px solid #1e1e1e; border-radius: 12px; padding: 24px; margin-bottom: 20px; }
+  .card h2 { font-size: 14px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 16px; }
+  .input-row { display: flex; gap: 12px; }
+  input[type=text] { flex: 1; background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 8px; padding: 10px 14px; color: #fff; font-size: 14px; outline: none; }
+  input[type=text]:focus { border-color: #4a9eff; }
+  button { background: #4a9eff; color: #fff; border: none; border-radius: 8px; padding: 10px 20px; font-size: 14px; font-weight: 500; cursor: pointer; white-space: nowrap; }
+  button:hover { background: #3a8eef; }
+  button:disabled { background: #2a2a2a; color: #666; cursor: not-allowed; }
+  .error-banner { background: #2a0a0a; border: 1px solid #5a1a1a; border-radius: 8px; padding: 12px 16px; margin-top: 12px; display: flex; align-items: center; gap: 12px; }
+  .error-banner span { flex: 1; font-size: 13px; color: #e05050; }
+  .btn-retry { background: #3a1a1a; color: #e05050; border: 1px solid #5a1a1a; border-radius: 6px; padding: 6px 14px; font-size: 12px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+  .btn-retry:hover { background: #5a1a1a; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; }
+  .badge-green { background: #0a2a1a; color: #3dba6f; border: 1px solid #1a4a2a; }
+  .badge-blue { background: #0a1a2a; color: #4a9eff; border: 1px solid #1a2a4a; }
+  .badge-yellow { background: #2a1a0a; color: #e0a030; border: 1px solid #4a2a0a; }
+  .step { display: flex; gap: 12px; padding: 10px 0; border-bottom: 1px solid #1a1a1a; }
+  .step:last-child { border-bottom: none; }
+  .step-type { width: 90px; font-size: 11px; font-weight: 600; color: #666; flex-shrink: 0; padding-top: 1px; }
+  .step-content { font-size: 13px; color: #ccc; line-height: 1.5; word-break: break-word; white-space: pre-wrap; }
+  .step-llm .step-type { color: #9b59b6; }
+  .step-tool .step-type { color: #4a9eff; }
+  .step-obs .step-type { color: #3dba6f; }
+  .step-final .step-type { color: #e0a030; }
+  .metric { text-align: center; }
+  .metric-val { font-size: 28px; font-weight: 700; color: #fff; }
+  .metric-label { font-size: 11px; color: #666; margin-top: 4px; }
+  .metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 20px; }
+  .spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid #444; border-top-color: #4a9eff; border-radius: 50%; animation: spin 0.8s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .trace-item { padding: 10px 0; border-bottom: 1px solid #1a1a1a; cursor: pointer; }
+  .trace-item:hover { color: #4a9eff; }
+  .trace-item:last-child { border-bottom: none; }
+  #status { font-size: 13px; color: #4a9eff; min-height: 20px; margin-top: 8px; }
+  .signal { padding: 8px 0; border-bottom: 1px solid #1a1a1a; font-size: 13px; }
+  .signal:last-child { border-bottom: none; }
+  .signal-type { color: #666; font-size: 11px; margin-bottom: 2px; }
+  .prospect-steps { display: flex; gap: 0; margin-top: 16px; }
+  .prospect-step { flex: 1; text-align: center; position: relative; }
+  .prospect-step:not(:last-child)::after { content: ''; position: absolute; top: 14px; right: -50%; width: 100%; height: 2px; background: #2a2a2a; z-index: 0; }
+  .prospect-step.active::after { background: #4a9eff; }
+  .step-circle { width: 28px; height: 28px; border-radius: 50%; border: 2px solid #2a2a2a; background: #111; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: #666; margin: 0 auto 6px; position: relative; z-index: 1; }
+  .prospect-step.active .step-circle { border-color: #4a9eff; color: #4a9eff; background: #0a1a2a; }
+  .prospect-step.done .step-circle { border-color: #3dba6f; color: #3dba6f; background: #0a2a1a; }
+  .step-label { font-size: 10px; color: #666; line-height: 1.3; }
+  .prospect-step.active .step-label { color: #4a9eff; }
+  .prospect-step.done .step-label { color: #3dba6f; }
+</style>
+</head>
+<body>
+<header>
+  <h1>GTM Platform</h1>
+  <span>AI-Native Prospect Loop</span>
+</header>
+
+<div class="container">
+
+  <!-- Prospect Input -->
+  <div class="card">
+    <h2>Prospect a Company</h2>
+    <div class="input-row">
+      <input type="text" id="domain" placeholder="Enter company domain (e.g. stripe.com)" />
+      <input type="text" id="sendTo" placeholder="Send email to (optional)" style="flex:0.6" />
+      <button id="runBtn" onclick="runProspect()">Run Prospect Loop</button>
+    </div>
+    <!-- Six-step prospect loop progress indicator -->
+    <div class="prospect-steps" id="loopSteps" style="display:none">
+      <div class="prospect-step" id="ps1"><div class="step-circle">1</div><div class="step-label">Search<br>News</div></div>
+      <div class="prospect-step" id="ps2"><div class="step-circle">2</div><div class="step-label">Find<br>Contacts</div></div>
+      <div class="prospect-step" id="ps3"><div class="step-circle">3</div><div class="step-label">Score<br>ICP</div></div>
+      <div class="prospect-step" id="ps4"><div class="step-circle">4</div><div class="step-label">Save<br>Contact</div></div>
+      <div class="prospect-step" id="ps5"><div class="step-circle">5</div><div class="step-label">Draft<br>Email</div></div>
+      <div class="prospect-step" id="ps6"><div class="step-circle">6</div><div class="step-label">Done</div></div>
+    </div>
+    <div id="status"></div>
+    <div id="errorBanner" style="display:none" class="error-banner">
+      <span id="errorMsg"></span>
+      <button class="btn-retry" onclick="retryProspect()">Retry</button>
+    </div>
+  </div>
+
+  <!-- Metrics -->
+  <div class="metrics" id="metrics" style="display:none">
+    <div class="card metric"><div class="metric-val" id="m-icp">-</div><div class="metric-label">ICP Score</div></div>
+    <div class="card metric"><div class="metric-val" id="m-contacts">-</div><div class="metric-label">Contacts Found</div></div>
+    <div class="card metric"><div class="metric-val" id="m-signals">-</div><div class="metric-label">Signals</div></div>
+    <div class="card metric"><div class="metric-val" id="m-steps">-</div><div class="metric-label">Agent Steps</div></div>
+  </div>
+
+  <!-- Agent Trace -->
+  <div class="card" id="traceCard" style="display:none">
+    <h2>Agent Reasoning Trace</h2>
+    <div id="traceSteps"></div>
+  </div>
+
+  <!-- Past Traces -->
+  <div class="card">
+    <h2>Past Runs</h2>
+    <div id="pastTraces"><div style="color:#666;font-size:13px">Loading...</div></div>
+  </div>
+
+</div>
+
+<script>
+let _lastDomain = null;
+let _lastSendTo = null;
+
+const STEP_TOOLS = ['search_news', 'search_contacts', 'score_icp', 'save_contact', 'draft_email'];
+
+function setLoopStep(stepNum) {
+  for (let i = 1; i <= 6; i++) {
+    const el = document.getElementById('ps' + i);
+    el.classList.remove('active', 'done');
+    if (i < stepNum) el.classList.add('done');
+    else if (i === stepNum) el.classList.add('active');
+  }
+}
+
+function updateStepsFromTrace(steps) {
+  let maxStep = 0;
+  steps.forEach(s => {
+    if (s.tool) {
+      const idx = STEP_TOOLS.indexOf(s.tool);
+      if (idx >= 0) maxStep = Math.max(maxStep, idx + 1);
+    }
+    if (s.type === 'FINAL') maxStep = 6;
+  });
+  if (maxStep > 0) setLoopStep(maxStep);
+}
+
+function showError(msg) {
+  document.getElementById('errorMsg').textContent = msg;
+  document.getElementById('errorBanner').style.display = 'flex';
+  document.getElementById('status').textContent = '';
+}
+
+function clearError() {
+  document.getElementById('errorBanner').style.display = 'none';
+  document.getElementById('errorMsg').textContent = '';
+}
+
+function retryProspect() {
+  if (_lastDomain) {
+    document.getElementById('domain').value = _lastDomain;
+    if (_lastSendTo) document.getElementById('sendTo').value = _lastSendTo;
+    runProspect();
+  }
+}
+
+async function runProspect() {
+  const domain = document.getElementById('domain').value.trim();
+  if (!domain) return;
+  const sendTo = document.getElementById('sendTo').value.trim();
+  _lastDomain = domain;
+  _lastSendTo = sendTo || null;
+
+  clearError();
+  document.getElementById('runBtn').disabled = true;
+  document.getElementById('loopSteps').style.display = 'flex';
+  setLoopStep(1);
+  document.getElementById('status').textContent = '';
+  const _s = document.getElementById('status'); _s.textContent = ''; const _sp = document.createElement('span'); _sp.className = 'spinner'; _s.appendChild(_sp); _s.appendChild(document.createTextNode(' Running prospect loop…'));
+  document.getElementById('metrics').style.display = 'none';
+  document.getElementById('traceCard').style.display = 'none';
+
+  try {
+    const res = await fetch('/api/prospect', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({domain, send_to: sendTo || null})
+    });
+    const data = await res.json();
+
+    if (!res.ok) {
+      showError('Error: ' + (data.detail || JSON.stringify(data)));
+      document.getElementById('runBtn').disabled = false;
+      return;
+    }
+
+    document.getElementById('m-icp').textContent = (data.icp_score * 100).toFixed(0) + '%';
+    document.getElementById('m-contacts').textContent = data.contacts_found;
+    document.getElementById('m-signals').textContent = data.signals;
+    document.getElementById('m-steps').textContent = data.steps;
+    document.getElementById('metrics').style.display = 'grid';
+
+    if (data.trace_id) {
+      await loadTrace(data.trace_id);
+      const traceSteps = document.getElementById('traceSteps');
+      updateStepsFromTrace(Array.from(traceSteps.children).map(el => ({
+        tool: el.dataset.tool, type: el.dataset.type
+      })));
+    }
+    setLoopStep(6);
+    document.getElementById('status').textContent = 'Done - trace saved: ' + data.trace_id;
+    loadPastTraces();
+  } catch(e) {
+    showError('Network error: ' + e.message + '. Check your connection and try again.');
+  }
+  document.getElementById('runBtn').disabled = false;
+}
+
+async function loadTrace(id) {
+  const res = await fetch('/api/traces/' + id);
+  const steps = await res.json();
+  const container = document.getElementById('traceSteps');
+  while (container.firstChild) container.removeChild(container.firstChild);
+
+  if (!Array.isArray(steps)) {
+    const msg = document.createElement('div');
+    msg.style.color = '#e05050';
+    msg.textContent = 'Trace not found';
+    container.appendChild(msg);
+    return;
+  }
+  steps.forEach(step => {
+    const div = document.createElement('div');
+    const typeClass = {
+      'LLM': 'step-llm', 'TOOL_CALL': 'step-tool',
+      'OBSERVATION': 'step-obs', 'FINAL': 'step-final'
+    }[step.type] || '';
+    div.className = `step ${typeClass}`;
+    const label = {'LLM': 'AGENT', 'TOOL_CALL': 'TOOL', 'OBSERVATION': 'RESULT', 'FINAL': 'ANSWER', 'START': 'START'}[step.type] || step.type;
+    const content = step.content || (step.tool ? `${step.tool}(${JSON.stringify(step.args || {})})` : '');
+    const typeEl = document.createElement('div');
+    typeEl.className = 'step-type';
+    typeEl.textContent = label;
+    const contentEl = document.createElement('div');
+    contentEl.className = 'step-content';
+    contentEl.textContent = content.slice(0, 500);
+    div.appendChild(typeEl);
+    div.appendChild(contentEl);
+    container.appendChild(div);
+  });
+
+  document.getElementById('traceCard').style.display = 'block';
+}
+
+async function loadPastTraces() {
+  const res = await fetch('/api/traces');
+  const traces = await res.json();
+  const container = document.getElementById('pastTraces');
+  if (!traces.length) {
+    const msg = document.createElement('div');
+    msg.style.cssText = 'color:#666;font-size:13px';
+    msg.textContent = 'No runs yet';
+    container.appendChild(msg);
+    return;
+  }
+  traces.forEach(t => {
+    const item = document.createElement('div');
+    item.className = 'trace-item';
+    item.onclick = () => loadTrace(t.id);
+    const badge = document.createElement('span');
+    badge.className = 'badge badge-blue';
+    badge.textContent = t.id;
+    const name = document.createElement('strong');
+    name.style.marginLeft = '8px';
+    name.textContent = t.domain;
+    const stepsEl = document.createElement('span');
+    stepsEl.style.cssText = 'color:#666;font-size:12px;margin-left:8px';
+    stepsEl.textContent = t.steps + ' steps';
+    const summary = document.createElement('div');
+    summary.style.cssText = 'color:#666;font-size:12px;margin-top:4px';
+    summary.textContent = t.summary;
+    item.appendChild(badge);
+    item.appendChild(name);
+    item.appendChild(stepsEl);
+    item.appendChild(summary);
+    container.appendChild(item);
+  });
+}
+
+loadPastTraces();
+</script>
+</body>
+</html>

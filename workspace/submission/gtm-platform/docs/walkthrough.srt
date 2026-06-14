@@ -1,0 +1,195 @@
+1
+00:00:00,000 --> 00:00:04,000
+GTM Platform - AI-Native Go-to-Market
+Topcoder Challenge Walkthrough
+
+2
+00:00:04,000 --> 00:00:08,000
+Architecture: 3 layers
+Data - Agent - API + UI
+
+3
+00:00:08,000 --> 00:00:13,000
+Bottom layer: SQLite data model
+5 tables: accounts, contacts, opportunities, signals, icp_profiles
+
+4
+00:00:13,000 --> 00:00:18,000
+Every table scoped by account_id
+Multi-tenancy built in - no schema change needed for a second tenant
+
+5
+00:00:18,000 --> 00:00:23,000
+Middle layer: ReAct agent loop (Claude Haiku)
+THOUGHT / ACTION / ARGS / OBSERVATION - every step logged
+
+6
+00:00:23,000 --> 00:00:28,000
+Top layer: FastAPI + vanilla JS UI
+Real-time agent trace viewer
+
+7
+00:00:28,000 --> 00:00:33,000
+2 real integrations:
+Serper (Google Search) + Gmail OAuth
+
+8
+00:00:33,000 --> 00:00:40,000
+DATA MODEL
+accounts table: domain, name, industry, icp_score
+
+9
+00:00:40,000 --> 00:00:47,000
+contacts: linked to account by account_id
+Every query filtered by account_id - that is multi-tenancy
+
+10
+00:00:47,000 --> 00:00:54,000
+signals: funding rounds, product launches, hires
+Captured from real search results, stored per account
+
+11
+00:00:54,000 --> 00:01:01,000
+opportunities: links contact to outreach action
+stage field supports follow-up sequences in iteration 2
+
+12
+00:01:01,000 --> 00:01:08,000
+SQLite now, PostgreSQL-compatible
+One import change in models.py to scale - nothing else changes
+
+13
+00:01:08,000 --> 00:01:15,000
+LIVE PROSPECT LOOP
+Server running at localhost:8000
+
+14
+00:01:15,000 --> 00:01:22,000
+System already has 2 seeded accounts:
+Rippling (ICP 0.92) and Linear (ICP 0.87)
+
+15
+00:01:22,000 --> 00:01:28,000
+Running a fresh prospect on stripe.com
+Email field empty = draft only, no send
+
+16
+00:01:28,000 --> 00:01:35,000
+Agent is running...
+Step 1: search_news - real Serper API call hitting Google
+
+17
+00:01:35,000 --> 00:01:45,000
+Step 2: search_contacts - LinkedIn profiles via Serper
+Real results, not mocked
+
+18
+00:01:45,000 --> 00:01:55,000
+Step 3: score_icp - Claude reasons about ICP fit
+Score computed from keywords, titles, industries in reasoning text
+
+19
+00:01:55,000 --> 00:02:05,000
+Step 4: save_contact - best contact written to SQLite
+Step 5: draft_email - personalized using the actual signal found
+
+20
+00:02:05,000 --> 00:02:15,000
+Step 6: ANSWER - agent summarizes the full run
+All steps complete
+
+21
+00:02:15,000 --> 00:02:22,000
+Metric cards: ICP score, contacts found, signals captured, agent steps
+Agent trace below - every reasoning step visible
+
+22
+00:02:22,000 --> 00:02:30,000
+AGENT TRACES
+Purple = THOUGHT (agent reasoning)
+Blue = TOOL_CALL (action + args)
+Green = OBSERVATION (real API response)
+
+23
+00:02:30,000 --> 00:02:38,000
+The agent thought, called search_news with company name,
+got back real Serper results, then decided next step
+
+24
+00:02:38,000 --> 00:02:46,000
+Traces also saved as JSON to /traces/
+Primary evidence for Category 1: Real AI/Agent Integration
+
+25
+00:02:46,000 --> 00:02:54,000
+Each entry: type, timestamp, content
+TOOL_CALL has tool name + args
+OBSERVATION has what came back from the real API
+
+26
+00:02:54,000 --> 00:03:02,000
+Nothing mocked or hardcoded
+Every agent step used real Claude Haiku
+Every search result came from real Serper API
+
+27
+00:03:02,000 --> 00:03:10,000
+INTEGRATIONS
+backbone/integrations.py - all external API calls
+
+28
+00:03:10,000 --> 00:03:18,000
+search_news: one Serper call
+Query: "{company} news funding product launch 2025 2026"
+Returns: title, link, snippet
+
+29
+00:03:18,000 --> 00:03:26,000
+search_contacts: Serper querying LinkedIn
+"site:linkedin.com/in {domain} CEO CTO VP Head Director"
+
+30
+00:03:26,000 --> 00:03:34,000
+send_email: Gmail OAuth2
+Loads token, builds MIMEText, posts to Gmail API
+Returns message_id on success
+
+31
+00:03:34,000 --> 00:03:42,000
+Adding a 3rd integration (HubSpot, Slack, Salesforce):
+- 1 function in integrations.py
+- 1 line in agent system prompt
+- 1 elif in _call_tool()
+Agent code does not change.
+
+32
+00:03:42,000 --> 00:03:50,000
+TESTS
+26 integration tests, all passing
+
+33
+00:03:50,000 --> 00:03:58,000
+Tests cover: data model CRUD, multi-tenancy isolation,
+agent parsing, ICP scoring, tool dispatch, full loop, API endpoints
+
+34
+00:03:58,000 --> 00:04:06,000
+WHAT IS NOT BUILT (iteration 1)
+Multi-step sequences, reply tracking, CRM pipeline view, Slack notifications
+
+35
+00:04:06,000 --> 00:04:14,000
+Data model already supports iteration 2:
+opportunities.stage field, signals table, extensible schema
+
+36
+00:04:14,000 --> 00:04:22,000
+Deliberate decisions:
+- SQLite over PostgreSQL (runs on reviewer's machine, one command)
+- Haiku over GPT-4 (10x cheaper, full run < $0.01)
+- Vanilla JS over React (no build step, loads instantly)
+
+37
+00:04:22,000 --> 00:04:30,000
+github.com/0x-auth/gtm-platform
+26 tests passing. 4 real agent traces. 2 live integrations.
